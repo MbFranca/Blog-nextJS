@@ -1,0 +1,32 @@
+{
+    "users": [
+      {
+        "id": "1",
+        "username": "typescript"
+      },
+      {
+        "id": "2",
+        "username": "vue"
+      },
+      {
+        "id": "3",
+        "username": "angular "
+      },
+      {
+        "id": "4",
+        "username": "express"
+      },
+      {
+        "id": "5",
+        "username": "jungle"
+      },
+      {
+        "id": "5",
+        "username": "delay "
+      },
+      {
+        "id": "6",
+        "username": "regex"
+      }
+    ]
+  }

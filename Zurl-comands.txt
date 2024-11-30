@@ -1,0 +1,5 @@
+https://blog-strap.onrender.com/api/posts
+?sort[createdAt]=desc
+&populate=cover
+&pagination[start]=0
+&pagination[limit]=1
