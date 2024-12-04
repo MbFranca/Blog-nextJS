@@ -7,254 +7,167 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 * {
+  list-style-type: decimal;
+  text-decoration: none;
   box-sizing: border-box;
   padding: 0;
   margin: 0;
   outline: none;
 }
-    
-    /* Cabeçalhos */
-    h1, h2, h3 {
-        color: #333;
-        font-weight: bold;
-        margin-bottom: 20px;
-        line-height: 1.3;
-    }
-    
-    h1 {
-        font-size: 2.5rem;
-    }
-    
-    h2 {
-        font-size: 2rem;
-        margin-top: 40px;
-        color: #2c3e50;
-    }
-    
-    h3 {
-        font-size: 1.5rem;
-        margin-top: 20px;
-        color: #555;
-    }
-    
-    /* Parágrafos */
-    p {
-        font-size: 1.1rem;
-        margin-bottom: 20px;
-        line-height: 1.8;
-    }
-    
-    /* Links */
-    a {
-        color: #3498db;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
-    
-    a:hover {
-        color: #2980b9;
-    }
-    
-    /* Negrito e Itálico */
-    strong, b {
-        font-weight: bold;
-        color: #e74c3c;
-    }
-    
-    em, i {
-        font-style: italic;
-        color: #8e44ad;
-    }
-    
-    /* Bloco de Citação */
-    blockquote {
-        background-color: #f9f9f9;
-        border-left: 5px solid #3498db;
-        padding: 15px;
-        font-style: italic;
-        margin: 20px 0;
-        font-size: 1.2rem;
-    }
-    
-    /* Imagens */
-    img {
-        max-width: 100%;
-        height: auto;
-        border-radius: 8px;
-        margin: 20px 0;
-    }
-    
-    /* Listas */
-    ul, ol {
-        margin-left: 20px;
-        margin-bottom: 20px;
-    }
-    
-    li {
-        margin-bottom: 10px;
-    }
-    
-    /* Código */
-    code {
-        background-color: #f4f4f4;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-family: 'Courier New', monospace;
-        font-size: 1rem;
-    }
-    
-    /* Função para Código de Bloco */
-    pre {
-        background-color: #f4f4f4;
-        padding: 15px;
-        border-radius: 8px;
-        overflow-x: auto;
-        font-family: 'Courier New', monospace;
-        color: #333;
-        margin: 20px 0;
-    }
-    
-    /* Tabela */
-    table {
-        width: 100%;
-        margin: 20px 0;
-        border-collapse: collapse;
-    }
-    
-    table, th, td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: left;
-    }
-    
-    th {
-        background-color: #3498db;
-        color: #fff;
-    }
-    
-    /* Botões */
-    button {
-        background-color: #3498db;
-        color: #fff;
-        border: none;
-        padding: 10px 20px;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-    }
-    
-    button:hover {
-        background-color: #2980b9;
-    }
-    
-.main-container {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    height: auto;
+/*Principal*/
+.homePage{
+    height: 100vh;   
 }
+/*FOOTER*/
+.footer{
+    width: 100%;
+    color: gray;
+    text-align: center;
+}
+/*Header*/
+.header{
+    width: 100%;
+    background-color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height:50px;
+    margin-bottom: 30px;
+}
+.header-tittle{
+    text-decoration: none;
+    color: white;
+    transition: all ease-in-out 0.5s;
+}
+.header-tittle:hover{
+    color: rgb(171, 171, 171);
+}
+/*posts containers*/
+.container{
+    display: flex;
+    margin:  20px auto;
+    max-width: 1000px;
+    flex-direction: column;
+}
+ 
+/* Posts container */
 .posts-container {
     display: grid;
-    grid-template-columns: repeat(3, 270px); /* 3 colunas de 250px por padrão */
-    grid-gap: 50px; /* Espaçamento entre os itens */
-    width: auto; /* Largura máxima do container */
-    min-height: 70%;
+    gap: 35px;
+    grid-template-columns: repeat(3, 1fr);
+    width: 100%;
+    margin: 0 auto;
 }
+
+@media (max-width: 900px) {
+    .posts-container {
+        grid-template-columns: repeat(2, 1fr); 
+    }
+}
+
+@media (max-width: 600px) {
+    .posts-container {
+        grid-template-columns: 1fr; 
+    }
+}
+
+/* Post item */
 .post-item {
-    
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    min-width: 270px; /* Largura dos itens */
-    height: 250px; /* Altura dos itens */
+    justify-content: center;
+    height: auto;
 }
+
+/* Imagem do post */
 .post-item-img {
-    height: 180px;
-    margin-bottom: 10px;
+    width: 100%; 
+    height: auto;
+    max-width: 300px; 
+    margin: 0 auto;
 }
-.post-item-img:hover{
+
+/* Imagem em si */
+.item-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: all 0.5s ease-in;
+}
+.item-img:hover{
     opacity: 0.7;
 }
-/* Quando a tela for menor que 1024px (telas médias) */
-@media (max-width: 1024px) {
-    .posts-container {
-        grid-template-columns: repeat(2, 270px); /* 2 colunas de 250px */
-        max-width: 790px
-    }
-}
-/* Quando a tela for menor que 768px (telas pequenas) */
-@media (max-width: 768px) {
-    .posts-container {
-        grid-template-columns: 1fr; /* 1 coluna de largura total */
-    }
-}
-.homePage{
-    height: 100vh;
-}
-.error{
-    color: red;
-}
-.header{
+.item-txt {
+    text-align: center;
+    font-size: 1.3em;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 60px;
-    background-color: #333;
-    margin-bottom: 50px;
-    
+    color: black;
 }
-.header-tittle {
-    color: rgb(255, 255, 255);
-    font-size: 1em;
-    text-decoration: none;
+.tittle {
+    max-width: 280px; /* Limita a largura máxima */
+    overflow: hidden; /* Esconde o conteúdo que ultrapassa o limite */
+    text-overflow: ellipsis; /* Adiciona '...' quando o texto for muito longo */
+    white-space: nowrap; /* Impede que o texto quebre a linha */
+    text-align: center; /* Alinha o título no centro */
 }
-.footer {
-    color: rgb(167, 165, 165);
+
+/*Post dynamic */
+.post-content {
+    font-family: 'Georgia', serif;
+    color: #333;
+    line-height: 1.6;
+    background-color: #f9f9f9;
+    padding: 20px;
+}
+
+.post-content h1 {
+    font-size: 2.5rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.post-content h2 {
+    font-size: 2rem;
+    border-bottom: 1px solid #bbb;
+    padding-bottom: 5px;
+    margin-bottom: 15px;
+}
+
+.post-content p {
+    margin-bottom: 1.5rem;
+}
+
+.post-content code {
+    font-family: 'Courier New', monospace;
+    background: #f4f4f4;
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: black;
+}
+
+.post-content pre {
+    background: #2d2d2d;
+    color: #f8f8f2;
+    padding: 15px;
+    border-radius: 5px;
+    overflow-x: auto;
+    margin-bottom: 1.5rem;
+}
+/*title*/
+.tittle-dynamic{
+    font-size: 2em;
     text-align: center;
-    margin-top: 20px;
-    height: 5%;
+    margin-bottom: 10px;
 }
-.postIst-tiitle{
-    font-size: 4rem;
-    }
-    .mainIst-container {
-        width: 100%;
-        display: flex;
-        justify-content: center;
-        flex-direction: column;
-        align-items: center;
-        height: auto;
-    }
-    .postsIst-container {
-        width: 1000px;
-    }
-    .postIst-item {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: auto; /* Largura dos itens */
-        min-height: 300px; /* Altura dos itens */
-        margin-bottom: 30px;
-    }
-    .postIst-item-img{
-        width: 40%;
-    }
-    .postIst-item-img:hover{
-        opacity: 0.7;
-    }
-    /* Quando a tela for menor que 1024px (telas médias) */
-    @media (max-width: 1024px) {
-        .postsIst-container {
-            grid-template-columns: repeat(2, 270px); /* 2 colunas de 250px */
-            max-width: 790px
-        }
-    }
-    /* Quando a tela for menor que 768px (telas pequenas) */
-    @media (max-width: 768px) {
-        .postsIst-container {
-            grid-template-columns: 1fr; /* 1 coluna de largura total */
-        }
-    }
+/*details*/
+.post-item-text-datails{
+    font-size: 0.6em;
+    margin-top: 40px;
+    text-align: right;
+}

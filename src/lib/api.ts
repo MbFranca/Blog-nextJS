@@ -1,27 +1,35 @@
-// lib/api.ts
-import { POST_URL } from '@/config/app-config';
- // Ajuste conforme a localização das interfaces
+// src/utils/fetchPosts.ts
 
-// Função para buscar múltiplos posts
-export const fetchPosts = async (): Promise<DatabaseResponse> => {
-  const res = await fetch(`${POST_URL}?sort[createdAt]=desc&populate=cover&populate=categorie&populate=author&_start=0&_limit=5`);
+import { POST_URL } from "@/config/app-config";
 
-  if (!res.ok) {
-    throw new Error('Erro ao carregar os posts');
-  }
+export const fetchPosts = async () => {
+    const res = await fetch(POST_URL + '?sort[createdAt]=desc&populate=cover&populate=categorie&populate=author&_start=0&_limit=1');
+  
+    if (!res.ok) {
+      throw new Error('Erro ao carregar os posts');
+    }
+  
+    const data: DatabaseResponse = await res.json();
+    return data;
+  };
+  
 
-  const data: DatabaseResponse = await res.json();
-  return data;
-};
-
-// Função para buscar um post específico
-export const fetchPostBySlug = async (slug: string): Promise<DatabaseResponseSingle> => {
-  const res = await fetch(`${POST_URL}?filters[slug][$eq]=${slug}&populate=cover&populate=categorie&populate=author`);
-
-  if (!res.ok) {
-    throw new Error('Erro ao carregar o post');
-  }
-
-  const data: DatabaseResponseSingle = await res.json();
-  return data;
-};
+  export const fetchPostDynamic = async (slug: string) => {
+    const res = await fetch(POST_URL + `?filters[slug][$eq]=${slug}&populate=cover&populate=categorie&populate=author`, {
+      cache: 'no-store',  // Evita cache de dados
+    });
+  
+    if (!res.ok) {
+      throw new Error('Erro ao carregar os post');
+    }
+  
+    const data: DatabaseResponse = await res.json();
+  
+    // Verifica se não há posts no resultado
+    if (!data.data || data.data.length === 0) {
+      throw new Error('Post não encontrado');
+    }
+  
+    return data;  // Retorna os dados caso a resposta seja válida
+  };
+  
