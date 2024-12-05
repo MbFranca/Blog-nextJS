@@ -52,23 +52,22 @@ const getPostSlug = async (slug: string) => {
 async function GetPost(params: Promise<{ slug: string }>): Promise<ExtendedMetadata> {
     const { slug } = await params; // Aguarde a resolução de `params`
   
-    console.log('Slug recebido:', slug); // Verifique o slug
+
   
     try {
         const post = await getPostSlug(slug);
-        console.log("Dados do post recuperados:", post);
+
     
         // Cria os metadados a partir do post recuperado
         const metadata: ExtendedMetadata = {
           ...post,
           title: post.tittle, // Certifique-se de que o campo correto está sendo mapeado
         };
-    
-        console.log("Metadados do post:", metadata);
+
     
         return metadata;
       } catch (error) {
-        console.error("Erro ao buscar o post:", error);
+
         throw notFound(); // Redireciona para página de erro
       }
   }
@@ -78,7 +77,6 @@ async function GetPost(params: Promise<{ slug: string }>): Promise<ExtendedMetad
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
     const post = await GetPost(params); // Aguarde a resolução de `params`
   
-    console.log('Post recuperado na página:', post); // Verifique os dados do post
   
     return (
       <>
