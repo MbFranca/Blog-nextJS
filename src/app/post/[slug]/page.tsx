@@ -1,32 +1,92 @@
-import { fetchPostDynamic } from "@/lib/api";
 import Header from "@/components/header/page";
 import Footer from "@/components/footer/page";
-import '@/styles/globals.css';
 import PostCardsDynamic from "@/containers/post-dinamic/page";
 import DisqusClient from "@/components/coments/page";
+import { Metadata as NextMetadata } from "next";
+import { notFound } from "next/navigation";
 
+interface ExtendedMetadata extends NextMetadata, DataItem {}
 
+export const revalidate = 60; // Revalida a página a cada 60 segundos
 
-export default async function Post({ params }: { params: { slug: string }, className?: string }) {
-  const { slug } = params;
-  let data;
-
-  try {
-    data = await fetchPostDynamic(slug);  
-  } catch (error) {
-    return <p className="error">{(error as Error).message}</p>;
-  }
-
-  if (!data || !data.data || data.data.length === 0) {
-    return <p className="error">Post não encontrado.</p>;
-  }
-  const post = data.data[0];
-  return (
-    <>
-      <Header />
-      <PostCardsDynamic post={post} />
-      <DisqusClient slug={slug} tittle={post.tittle}/>
-      <Footer />
-    </>
+export async function generateStaticParams() {
+  const res = await fetch(
+    "https://blog-strap.onrender.com/api/posts?populate=cover&populate=categorie&populate=author",
+    { cache: "force-cache" } // Garante que a API seja chamada apenas no build
   );
+
+  if (!res.ok) {
+    throw new Error(`Erro ao carregar os posts: ${res.status}`);
+  }
+
+  const data = await res.json();
+  const posts = data.data;
+
+  return posts.map((post: { slug: string }) => ({
+    slug: post.slug,
+  }));
 }
+
+const getPostSlug = async (slug: string) => {
+  const res = await fetch(
+    `https://blog-strap.onrender.com/api/posts?filters[slug][$eq]=${slug}&populate=cover&populate=categorie&populate=author`,
+    { cache: "force-cache" } // Força o cache para geração estática
+  );
+
+  if (!res.ok) {
+    throw new Error(`Erro ao carregar o post para o slug ${slug}: ${res.status}`);
+  }
+
+  const data = await res.json();
+
+  if (!data.data || data.data.length === 0) {
+    throw new Error(`Post não encontrado para o slug: ${slug} 1`);
+  }
+
+  return data.data[0]; // Retorna apenas o primeiro post correspondente
+};
+
+  
+
+// Função para obter o post
+async function GetPost(params: Promise<{ slug: string }>): Promise<ExtendedMetadata> {
+    const { slug } = await params; // Aguarde a resolução de `params`
+  
+    console.log('Slug recebido:', slug); // Verifique o slug
+  
+    try {
+        const post = await getPostSlug(slug);
+        console.log("Dados do post recuperados:", post);
+    
+        // Cria os metadados a partir do post recuperado
+        const metadata: ExtendedMetadata = {
+          ...post,
+          title: post.tittle, // Certifique-se de que o campo correto está sendo mapeado
+        };
+    
+        console.log("Metadados do post:", metadata);
+    
+        return metadata;
+      } catch (error) {
+        console.error("Erro ao buscar o post:", error);
+        throw notFound(); // Redireciona para página de erro
+      }
+  }
+  
+
+// Página principal
+export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+    const post = await GetPost(params); // Aguarde a resolução de `params`
+  
+    console.log('Post recuperado na página:', post); // Verifique os dados do post
+  
+    return (
+      <>
+        <Header />
+        <PostCardsDynamic post={post} />
+        <DisqusClient slug={post.slug} tittle={post.tittle} />
+        <Footer />
+      </>
+    );
+  }
+  

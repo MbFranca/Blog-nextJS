@@ -6,7 +6,7 @@ export const fetchPosts = async () => {
     const res = await fetch(POST_URL + '?sort[createdAt]=desc&populate=cover&populate=categorie&populate=author&_start=0&_limit=1');
   
     if (!res.ok) {
-      throw new Error('Erro ao carregar os posts');
+        throw new Error(`Erro ao carregar os posts: ${res.status} ${res.statusText}`);
     }
   
     const data: DatabaseResponse = await res.json();
@@ -14,7 +14,7 @@ export const fetchPosts = async () => {
   };
   
 
-  export const fetchPostDynamic = async (slug: string) => {
+  export const getPostSlug = async (slug: string) => {
     const res = await fetch(POST_URL + `?filters[slug][$eq]=${slug}&populate=cover&populate=categorie&populate=author`, {
       cache: 'no-store',  // Evita cache de dados
     });

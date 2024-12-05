@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
+
 // Representa um texto simples dentro de um parágrafo
 interface Text {
     type: "text";  // Tipo fixo
@@ -115,7 +116,6 @@ interface Text {
   
   // Resposta da base de dados com múltiplos itens
   interface DatabaseResponse {
-    map(arg0: (post: DatabaseResponseSingle ) => { params: { slug: string; }; }): unknown;
     data: DataItem[];            // Array de itens de dados
     meta: Meta;                  // Metadados da resposta, incluindo a paginação
   }
