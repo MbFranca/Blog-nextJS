@@ -67,7 +67,7 @@ async function GetPost(params: Promise<{ slug: string }>): Promise<ExtendedMetad
     
         return metadata;
       } catch (error) {
-
+        console.error("Erro em generateStaticParams:", error);
         throw notFound(); // Redireciona para página de erro
       }
   }
