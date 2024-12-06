@@ -4,6 +4,9 @@ import PostCardsDynamic from "@/containers/post-dinamic/page";
 import DisqusClient from "@/components/coments/page";
 import { Metadata as NextMetadata } from "next";
 import { notFound } from "next/navigation";
+import Head from "next/head";
+import { SITE_NAME } from "@/config/app-config";
+import { removeHtml } from "@/lib/remove-html";
 
 interface ExtendedMetadata extends NextMetadata, DataItem {}
 
@@ -80,6 +83,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   
     return (
       <>
+            <Head>
+            <title>{post.tittle} - {SITE_NAME}</title>
+            <meta name='description'content={post.content
+      .map(i => i.children.map(child => removeHtml(child.text)).join(' '))
+      .join(' ')
+      .slice(0,150)}
+      />
+            </Head>
         <Header />
         <PostCardsDynamic post={post} />
         <DisqusClient slug={post.slug} tittle={post.tittle} />
